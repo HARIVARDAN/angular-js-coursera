@@ -1,49 +1,79 @@
-(function () {
+(function(){
 
 'use strict';
-angular.module('Assignment1',[])
-.controller('controller1',controller1);
+
+angular.module('ShoppingListApp',[])
+.controller('ShoppingListBuyController',ShoppingListBuyController)
+.controller('ShoppingListBoughtController',ShoppingListBoughtController)
+.service('ShoppingListService', ShoppingListService);
+
+ShoppingListBuyController.$inject=['ShoppingListService'];
+function ShoppingListBuyController(ShoppingListService){
+
+var ShoppingList=this;
+
+   ShoppingList.items=ShoppingListService.getItems();
+
+ShoppingList.removeItem=function(itemIndex){
+    try{ ShoppingListService.removeItem(itemIndex);
+    } catch(error){
+      ShoppingList.message=error.message;
+    }
+};
+
+}
 
 
-function controller1($scope) {
-$scope.lunch="";
-$scope.Calculate_lunch_menu=function(){
- var count=split_array($scope.lunch);
- $scope.message=message_output(count);
- $scope.color=color_output(count);
-}
+ShoppingListBoughtController.$inject=['ShoppingListService'];
+function ShoppingListBoughtController(ShoppingListService){
+
+  var bought=this;
+  bought.items= ShoppingListService.getboughtItems();
+
+
 }
 
-function split_array(str){
-  var lunch_menu_array=str.split(',');
-  var count=0;
-  for (var i = 0; i < lunch_menu_array.length; i++) {
-    //item1,item2,, is counted as 2 items only
-  if(lunch_menu_array[i]=="")
-  continue;
-  else
-  count++;
-  }
-return (count);
+function ShoppingListService(){
+  var service=this;
+  var bought_items=[];
+  var items = [
+      {
+        name: "Milk",
+        quantity: "2"
+      },
+      {
+        name: "Donuts",
+        quantity: "200"
+      },
+      {
+        name: "Cookies",
+        quantity: "300"
+      },
+      {
+        name: "Chocolate",
+        quantity: "5"
+      }
+    ];
+
+  service.getItems=function(){
+    return items;
+  };
+
+service.removeItem=function (itemIndex) {
+
+
+  bought_items.push(items[itemIndex]);
+  items.splice(itemIndex, 1);
+  if(items.length===0)
+  throw new Error("Everything is bought");
+};
+
+  service.getboughtItems = function () {
+    
+  return bought_items;
+};
 }
 
-function message_output(count) {
-  if(count==0)
-   return "Please enter data first";
-else if(count>3)
-  return "Too much!";
-else if(count<=3) {
-  return "Enjoy!";
-}
-}
-
-function color_output(count){
-  if(count==0)
-   return "red";
-  else {
-    return "green";
-  }
-}
 
 
 
