@@ -50,13 +50,14 @@ function ShoppingListService(){
         quantity: "300"
       },
       {
-        name: "Chocolate",
-        quantity: "5"
-      },
-     {
         name:"Biscuits",
         quantity: "6"
-     }
+     },
+      {
+        name: "Chocolate",
+        quantity: "5"
+      }
+    
     ];
 
   service.getItems=function(){
