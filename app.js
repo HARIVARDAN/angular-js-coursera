@@ -52,7 +52,11 @@ function ShoppingListService(){
       {
         name: "Chocolate",
         quantity: "5"
-      }
+      },
+     {
+        name:"Biscuits",
+        quantity: "6"
+     }
     ];
 
   service.getItems=function(){
